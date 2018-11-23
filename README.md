@@ -1,2 +1,2 @@
 # pokeSMART-AI
-Test environment for Artificial Intelligence from pokeSMART game
+Test environment for Artificial Intelligence to pokeSMART game
