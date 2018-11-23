@@ -1,5 +1,3 @@
-package pokeSMART;
-
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -44,7 +42,7 @@ public class GameManager {
 			if (team1.getCurrentPokemon().isFainted()) {
 				changePokemon(team1);
 			}
-			System.out.println("["+team1.getCurrentPokemon()+"] Choose a movement: ");
+			System.out.println("[" + team1.getCurrentPokemon() + "] Choose a movement: ");
 			System.out.println("1. Switch");
 			System.out.println("2. Neutral Attack");
 			System.out.println("3. Special Attack");
@@ -59,7 +57,7 @@ public class GameManager {
 				changePokemon(team2);
 			}
 
-			System.out.println("["+team2.getCurrentPokemon()+"] Choose a movement: ");
+			System.out.println("[" + team2.getCurrentPokemon() + "] Choose a movement: ");
 			System.out.println("1. Switch");
 			System.out.println("2. Neutral Attack");
 			System.out.println("3. Special Attack");

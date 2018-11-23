@@ -1,5 +1,3 @@
-package pokeSMART;
-
 import java.util.Arrays;
 
 public class Team {
@@ -31,7 +29,5 @@ public class Team {
 	public String toString() {
 		return "Team [team=" + Arrays.toString(team) + ", currentPokemon=" + currentPokemon.getName() + "]";
 	}
-	
-	
 
 }

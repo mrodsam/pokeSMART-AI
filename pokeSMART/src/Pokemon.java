@@ -1,5 +1,3 @@
-package pokeSMART;
-
 import java.util.LinkedHashMap;
 
 public class Pokemon {
