@@ -5,28 +5,36 @@ public class GameManager {
 	static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
-
+		int reward = 0;
 		boolean end = false;
 
-		Team team1 = new Team(generateRandomTeam());
-		Team team2 = new Team(generateRandomTeam());
-		Player randomPlayer = new Player(team2);
+		Team rivalTeam = new Team(generateRandomTeam());
+//		Team team2 = new Team(generateRandomTeam());
 
-		System.out.println("Team 1: " + team1.toString());
-		System.out.println("Team 2: " + team2.toString());
+		Pokemon[] pokemonteam2 = new Pokemon[3];
+		pokemonteam2[0] = new Pokemon(AvailablePokemon.Poliwag);
+		pokemonteam2[1] = new Pokemon(AvailablePokemon.Poochyena);
+		pokemonteam2[2] = new Pokemon(AvailablePokemon.Charmander);
+		Team myTeam = new Team(pokemonteam2);
+		Player randomPlayer = new Player(myTeam);
+
+		System.out.println("Team 1: " + rivalTeam.toString());
+		System.out.println("Team 2: " + myTeam.toString());
 
 		System.out.println("Number of players[1 or 2]: ");
 		int players = Integer.parseInt(sc.nextLine());
 
 		while (!end) {
+			Pokemon rivalBeforeSwitch = rivalTeam.getCurrentPokemon();
+			Pokemon myBeforeSwitch = myTeam.getCurrentPokemon();
 			int count1 = 0;
 			int count2 = 0;
-			for (int i = 0; i < team1.getTeam().length; i++) {
-				if (team1.getTeam()[i].isFainted())
+			for (int i = 0; i < rivalTeam.getTeam().length; i++) {
+				if (rivalTeam.getTeam()[i].isFainted())
 					count1++;
 			}
-			for (int i = 0; i < team2.getTeam().length; i++) {
-				if (team2.getTeam()[i].isFainted())
+			for (int i = 0; i < myTeam.getTeam().length; i++) {
+				if (myTeam.getTeam()[i].isFainted())
 					count2++;
 			}
 			if (count1 == 3 && count2 == 3) {
@@ -35,7 +43,7 @@ public class GameManager {
 				break;
 			}
 			if (count1 == 3) {
-				System.out.println("Player 2 won the battle.");
+				System.out.println("Player AI won the battle.");
 				end = true;
 				break;
 			}
@@ -46,69 +54,82 @@ public class GameManager {
 			}
 
 			int movement[] = new int[2];
-			System.out.println("*********** Battle: " + team1.getCurrentPokemon().getName() + "["
-					+ team1.getCurrentPokemon().getHp() + "]" + " vs " + team2.getCurrentPokemon().getName() + "["
-					+ team2.getCurrentPokemon().getHp() + "]" + " **********");
-			if (team1.getCurrentPokemon().isFainted()) {
-				changePokemon(team1);
+			System.out.println("*********** Battle: " + rivalTeam.getCurrentPokemon().getName() + "["
+					+ rivalTeam.getCurrentPokemon().getHp() + "]" + " vs " + myTeam.getCurrentPokemon().getName() + "["
+					+ myTeam.getCurrentPokemon().getHp() + "]" + " **********");
+			if (rivalTeam.getCurrentPokemon().isFainted()) {
+				changePokemon(rivalTeam);
 			}
-			System.out.println("[" + team1.getCurrentPokemon() + "] Choose a movement: ");
+			System.out.println("[" + rivalTeam.getCurrentPokemon() + "] Choose a movement: ");
 			System.out.println("1. Switch");
 			System.out.println("2. Neutral Attack");
-			System.out.println("3. Special Attack");
+			System.out.println("3. Type Attack");
 
 			movement[0] = Integer.parseInt(sc.nextLine());
 
 			if (movement[0] == 1) {
-				changePokemon(team1);
+				changePokemon(rivalTeam);
 			}
 
 			switch (players) {
 			case 2:
-				if (team2.getCurrentPokemon().isFainted()) {
-					changePokemon(team2);
+				if (myTeam.getCurrentPokemon().isFainted()) {
+					changePokemon(myTeam);
 				}
 
-				System.out.println("[" + team2.getCurrentPokemon() + "] Choose a movement: ");
+				System.out.println("[" + myTeam.getCurrentPokemon() + "] Choose a movement: ");
 				System.out.println("1. Switch");
 				System.out.println("2. Neutral Attack");
-				System.out.println("3. Special Attack");
+				System.out.println("3. Type Attack");
 
 				movement[1] = Integer.parseInt(sc.nextLine());
 
 				if (movement[1] == 1) {
-					changePokemon(team2);
+					changePokemon(myTeam);
 				}
 				break;
 
 			case 1:
-				if (team2.getCurrentPokemon().isFainted()) {
-					team2.setCurrentPokemon(team2.getTeam()[randomPlayer.chooseMovement(true)]);
-					System.out.println("Player 2 switch to " + team2.getCurrentPokemon());
+
+				if (myTeam.getCurrentPokemon().isFainted()) {
+					myTeam.setCurrentPokemon(randomPlayer.chooseMovement(true, null, 0));
+					System.out.println("Player AI switch to " + myTeam.getCurrentPokemon());
 				}
-				movement[1] = randomPlayer.chooseMovement(false);
-				if (movement[1] == 1) {
-					team2.setCurrentPokemon(team2.getTeam()[randomPlayer.chooseMovement(true)]);
-					System.out.println("Player 2 switch to " + team2.getCurrentPokemon());
+				State s = new State(myTeam.getCurrentPokemon(), myTeam.getBackup1(), myTeam.getBackup2(),
+						rivalTeam.getCurrentPokemon(), rivalTeam.getBackup1(), rivalTeam.getBackup2());
+				movement[1] = randomPlayer.chooseMovement(false, s, reward);
+				if (movement[1] == 10) {
+					myTeam.setCurrentPokemon(myTeam.backup1);
+					System.out.println("Player AI switch to " + myTeam.getCurrentPokemon());
+				} else if (movement[1] == 11) {
+					myTeam.setCurrentPokemon(myTeam.backup2);
+					System.out.println("Player AI switch to " + myTeam.getCurrentPokemon());
+				}
+				if (movement[1] == 12) {
+					if (myTeam.getBackup1().isFainted())
+						myTeam.setCurrentPokemon(myTeam.backup2);
+					else
+						myTeam.setCurrentPokemon(myTeam.backup1);
 				}
 				break;
 			}
-
+			int myDamage = 0;
+			int rivalDamage = 0;
 			for (int i = 0; i < movement.length; i++) {
 				switch (movement[i]) {
 				case 2:
 					if (i == 0) {
-						attack(team1.getCurrentPokemon(), team2.getCurrentPokemon(), false);
+						myDamage = attack(rivalTeam.getCurrentPokemon(), myTeam.getCurrentPokemon(), false);
 					} else if (i == 1) {
-						attack(team2.getCurrentPokemon(), team1.getCurrentPokemon(), false);
+						rivalDamage = attack(myTeam.getCurrentPokemon(), rivalTeam.getCurrentPokemon(), false);
 					}
 					break;
 
 				case 3:
 					if (i == 0) {
-						attack(team1.getCurrentPokemon(), team2.getCurrentPokemon(), true);
+						myDamage = attack(rivalTeam.getCurrentPokemon(), myTeam.getCurrentPokemon(), true);
 					} else if (i == 1) {
-						attack(team2.getCurrentPokemon(), team1.getCurrentPokemon(), true);
+						rivalDamage = attack(myTeam.getCurrentPokemon(), rivalTeam.getCurrentPokemon(), true);
 					}
 					break;
 				case 4:
@@ -116,6 +137,11 @@ public class GameManager {
 					break;
 				}
 			}
+
+			/******************* CALCULAR REWARD AQUÍ ***********************/
+			reward = Reward.getReward(rivalTeam.getCurrentPokemon(), myTeam.getCurrentPokemon(), rivalBeforeSwitch,
+					myBeforeSwitch, rivalDamage, myDamage);
+			System.out.println("******************Reward: " + reward + "**************");
 		}
 		sc.close();
 	}
@@ -128,20 +154,25 @@ public class GameManager {
 				System.out.println(j + ". " + team.getTeam()[j]);
 		}
 		int newPokemon = Integer.parseInt(sc.nextLine());
-		team.setCurrentPokemon(team.getTeam()[newPokemon]);
+		team.setCurrentPokemon(newPokemon);
 		System.out.println("Your choice: " + team.getTeam()[newPokemon]);
 	}
 
-	private static void attack(Pokemon attacker, Pokemon attacked, boolean special) {
+	private static int attack(Pokemon attacker, Pokemon attacked, boolean special) {
+		int hpBefore = attacked.getHp();
+
 		if (special) {
 			System.out.println(attacker + " used special attack");
-			attacked.receiveAttack(attacker.getSpecialAttack());
+			attacked.receiveAttack(attacker.getTypeAttack());
 			System.out.println(attacked + " HP = " + attacked.getHp());
 		} else {
 			System.out.println(attacker + " used neutral attack");
 			attacked.receiveAttack(attacker.getNeutralAttack());
 			System.out.println(attacked + " HP = " + attacked.getHp());
 		}
+		int hpAfter = attacked.getHp();
+
+		return hpBefore - hpAfter;
 
 	}
 

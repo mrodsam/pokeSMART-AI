@@ -85,10 +85,19 @@ public class Pokemon {
 			this.hp -= 2;
 		}
 
-		if (this.hp < 0) {
+		if (this.hp <= 0) {
 			this.hp = 0;
 			fainted = true;
+			this.type = "fainted";
 			System.out.println(this.name.toString() + " fainted");
+		}
+	}
+
+	public String faintedOrType() {
+		if (fainted) {
+			return "fainted";
+		} else {
+			return type;
 		}
 	}
 
@@ -116,7 +125,7 @@ public class Pokemon {
 		return "neutral";
 	}
 
-	public String getSpecialAttack() {
+	public String getTypeAttack() {
 		return this.type;
 	}
 
@@ -126,6 +135,10 @@ public class Pokemon {
 
 	public void setFainted(boolean fainted) {
 		this.fainted = fainted;
+	}
+
+	public LinkedHashMap<String, String> getTypeAttacks() {
+		return typeAttacks;
 	}
 
 	@Override
