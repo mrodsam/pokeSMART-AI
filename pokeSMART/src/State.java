@@ -29,18 +29,24 @@ public class State {
 		if (!currentPokemon.isFainted() && !myBackupPokemon1.isFainted() && !myBackupPokemon2.isFainted()) {
 			numActions = 4;
 			/*
-			 * 0 - backup1 1 - backup2 2 - ataque neutro 3 - ataque de tipo
+			 * 0 - backup1 
+			 * 1 - backup2 
+			 * 2 - ataque neutro 
+			 * 3 - ataque de tipo
 			 */
 		} else if (myBackupPokemon1.isFainted() || myBackupPokemon2.isFainted()) {
 			numActions = 3;
 			/*
-			 * 0 - ataque neutro 1 - ataque de tipo 2 - backup1/backup2 (el que no esté
+			 * 0 - ataque neutro 
+			 * 1 - ataque de tipo 
+			 * 2 - backup1/backup2 (el que no esté
 			 * muerto)
 			 */
 		} else if (myBackupPokemon1.isFainted() && myBackupPokemon2.isFainted()) {
 			numActions = 2;
 			/*
-			 * 0 - ataque neutro 1 - ataque de tipo
+			 * 0 - ataque neutro 
+			 * 1 - ataque de tipo
 			 */
 		}
 		this.numActions = numActions;

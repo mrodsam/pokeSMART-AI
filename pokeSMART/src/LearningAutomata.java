@@ -6,7 +6,6 @@ public class LearningAutomata {
 	final double dMINLearnRate = 0.05;
 	double dLearnRate = 0.1;
 	int iNewAction;
-	int iNumActions = 2;
 	int iLastAction;
 	double dLastFunEval;
 	StateAction oPresentStateAction;
@@ -33,7 +32,7 @@ public class LearningAutomata {
 
 		if (oLastStateAction != null) {
 			if (dFunEval - dLastFunEval > 0)
-				for (int i = 0; i < iNActions; i++)
+				for (int i = 0; i < oLastStateAction.iGetNActions(); i++)
 					if (i == iLastAction)
 						oLastStateAction.dValAction[i] += dLearnRate * (1.0 - oLastStateAction.dValAction[i]);
 					else
@@ -55,7 +54,7 @@ public class LearningAutomata {
 		dLearnRate *= dDecFactorLR;
 		if (dLearnRate < dMINLearnRate)
 			dLearnRate = dMINLearnRate;
-		
+
 		return iNewAction;
 	}
 }

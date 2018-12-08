@@ -21,7 +21,8 @@ public class Player {
 		} else {
 //			int rndm = r.nextInt(3);
 //			return rndm + 1;
-			System.out.println(state.toString());
+			System.out.println(state.getStateName());
+			System.out.println(state.getNumActions());
 			int newAction = la.vGetNewActionAutomata(state.getStateName(), state.getNumActions(), reward);
 			System.out.println("Action: " + newAction);
 			switch (state.getNumActions()) {
@@ -56,4 +57,14 @@ public class Player {
 		}
 		return 0;
 	}
+
+	public Team getMyTeam() {
+		return myTeam;
+	}
+
+	public void setMyTeam(Team myTeam) {
+		this.myTeam = myTeam;
+	}
+	
+	
 }

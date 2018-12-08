@@ -7,10 +7,12 @@ public class StateAction implements Serializable {
 	private static final long serialVersionUID = 1683670962607404357L;
 	String sState;
 	double[] dValAction;
+	int iNActions;
 
 	StateAction(String sAuxState, int iNActions) {
 		sState = sAuxState;
 		dValAction = new double[iNActions];
+		this.iNActions = iNActions;
 	}
 
 	StateAction(String sAuxState, int iNActions, boolean bLA) {
@@ -26,5 +28,9 @@ public class StateAction implements Serializable {
 
 	public double dGetQAction(int i) {
 		return dValAction[i];
+	}
+
+	public int iGetNActions() {
+		return iNActions;
 	}
 }
