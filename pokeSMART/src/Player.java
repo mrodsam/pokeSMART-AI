@@ -22,12 +22,10 @@ public class Player {
 //			int rndm = r.nextInt(3);
 //			return rndm + 1;
 			System.out.println(state.getStateName());
-			System.out.println(state.getNumActions());
 			int newAction = la.vGetNewActionAutomata(state.getStateName(), state.getNumActions(), reward);
 			System.out.println("Action: " + newAction);
 			switch (state.getNumActions()) {
-			// Si quiere cambiar a backup1 = 10 y si quiere a backup2=11
-			case 4:
+			case 4: //Ninguno de mis Pokémon está desmayado
 				switch (newAction) {
 				case 0:
 					/*Cambiar a backup1*/
@@ -42,16 +40,20 @@ public class Player {
 					/*Ataque de tipo*/
 					return 3;
 				}
-			case 3:
+			case 3: //Alguno de mis Pokémon está desmayado
 				switch (newAction) {
 				case 0:
+					/*Ataque neutro*/
 					return 2;
 				case 1:
+					/*Ataque de tipo*/
 					return 3;
 				case 2:
+					/*Cambiar al backup no desmayado*/
 					return 12;
 				}
-			case 2:
+			case 2: //2 de mis Pokémon están desmayados
+				/*Ataque neutro o de tipo*/
 				return newAction + 2;
 			}
 		}
