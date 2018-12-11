@@ -52,12 +52,20 @@ public class Team {
 		}
 	}
 
-	@Override
-	public String toString() {
-		return "Team [team=" + Arrays.toString(team) + ", currentPokemon=" + team[currentPokemon] + ", backup1=" + team[backup1]
-				+ ", backup2=" + team[backup2] + "]";
+	public int getFaintedPokemon() {
+		int count = 0;
+		for (int i = 0; i < team.length; i++) {
+			if (team[i].isFainted()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
-	
+	@Override
+	public String toString() {
+		return "Team [team=" + Arrays.toString(team) + ", currentPokemon=" + team[currentPokemon] + ", backup1="
+				+ team[backup1] + ", backup2=" + team[backup2] + "]";
+	}
 
 }
