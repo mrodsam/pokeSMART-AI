@@ -46,7 +46,7 @@ public class Pokemon {
 			typeAttacks.put("fire", "neutral");
 			typeAttacks.put("water", "neutral");
 			typeAttacks.put("grass", "neutral");
-			typeAttacks.put("fighting", "neutral");
+			typeAttacks.put("fighting", "nonEffective");
 			typeAttacks.put("dark", "nonEffective");
 			typeAttacks.put("ghost", "effective");
 		} else if (this.type.equals("dark")) {
@@ -54,7 +54,7 @@ public class Pokemon {
 			typeAttacks.put("water", "neutral");
 			typeAttacks.put("grass", "neutral");
 			typeAttacks.put("fighting", "effective");
-			typeAttacks.put("dark", "neutral");
+			typeAttacks.put("dark", "nonEffective");
 			typeAttacks.put("ghost", "nonEffective");
 		} else if (this.type.equals("ghost")) {
 			typeAttacks.put("fire", "neutral");
@@ -62,7 +62,7 @@ public class Pokemon {
 			typeAttacks.put("grass", "neutral");
 			typeAttacks.put("fighting", "nonEffective");
 			typeAttacks.put("dark", "effective");
-			typeAttacks.put("ghost", "neutral");
+			typeAttacks.put("ghost", "nonEffective");
 		}
 	}
 
