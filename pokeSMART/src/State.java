@@ -4,52 +4,13 @@ public class State {
 	private Pokemon myBackupPokemon1;
 	private Pokemon myBackupPokemon2;
 	private Pokemon rivalPokemon;
-	private Pokemon rivalBackupPokemon1;
-	private Pokemon rivalBackupPokemon2;
 
-	private int numActions;
-
-	public State(Pokemon currentPokemon, Pokemon myBackupPokemon1, Pokemon myBackupPokemon2, Pokemon rivalPokemon,
-			Pokemon rivalBackupPokemon1, Pokemon rivalBackupPokemon2) {
+	public State(Pokemon currentPokemon, Pokemon myBackupPokemon1, Pokemon myBackupPokemon2, Pokemon rivalPokemon) {
 		this.currentPokemon = currentPokemon;
 		this.myBackupPokemon1 = myBackupPokemon1;
 		this.myBackupPokemon2 = myBackupPokemon2;
 		this.rivalPokemon = rivalPokemon;
-		this.rivalBackupPokemon1 = rivalBackupPokemon1;
-		this.rivalBackupPokemon2 = rivalBackupPokemon2;
-		setNumActions();
-	}
 
-	public int getNumActions() {
-		return numActions;
-	}
-
-	public void setNumActions() {
-		int numActions = 0;
-		if (!currentPokemon.isFainted() && !myBackupPokemon1.isFainted() && !myBackupPokemon2.isFainted()) {
-			numActions = 4;
-			/*
-			 * 0 - backup1 
-			 * 1 - backup2 
-			 * 2 - ataque neutro 
-			 * 3 - ataque de tipo
-			 */
-		} else if (myBackupPokemon1.isFainted() || myBackupPokemon2.isFainted()) {
-			numActions = 3;
-			/*
-			 * 0 - ataque neutro 
-			 * 1 - ataque de tipo 
-			 * 2 - backup1/backup2 (el que no esté
-			 * muerto)
-			 */
-		} else if (myBackupPokemon1.isFainted() && myBackupPokemon2.isFainted()) {
-			numActions = 2;
-			/*
-			 * 0 - ataque neutro 
-			 * 1 - ataque de tipo
-			 */
-		}
-		this.numActions = numActions;
 	}
 
 	public Pokemon getCurrentPokemon() {
@@ -84,26 +45,149 @@ public class State {
 		this.rivalPokemon = rivalPokemon;
 	}
 
-	public Pokemon getRivalBackupPokemon1() {
-		return rivalBackupPokemon1;
-	}
-
-	public void setRivalBackupPokemon1(Pokemon rivalBackupPokemon1) {
-		this.rivalBackupPokemon1 = rivalBackupPokemon1;
-	}
-
-	public Pokemon getRivalBackupPokemon2() {
-		return rivalBackupPokemon2;
-	}
-
-	public void setRivalBackupPokemon2(Pokemon rivalBackupPokemon2) {
-		this.rivalBackupPokemon2 = rivalBackupPokemon2;
-	}
-
 	public String getStateName() {
-		return currentPokemon.getType() + "_" + currentPokemon.getHp() + "_" + myBackupPokemon1.faintedOrType() + "_"
-				+ myBackupPokemon2.faintedOrType() + "_" + rivalPokemon.getType() + "_" + rivalPokemon.getHp() + "_"
-				+ rivalBackupPokemon1.faintedOrType() + "_" + rivalBackupPokemon2.faintedOrType();
+		StringBuilder sb = new StringBuilder();
+		getCurrentPokemonEffectivity(sb);
+		sb.append("_");
+		getCurrentPokemonHPRange(sb);
+		sb.append("_");
+		getBackup1Effectivity(sb);
+		sb.append("_");
+		getBackup1HPRange(sb);
+		sb.append("_");
+		getBackup2Effectivity(sb);
+		sb.append("_");
+		getBackup2HpRange(sb);
+		sb.append("_");
+		getRivalHPRange(sb);
+
+		return sb.toString();
+	}
+
+	private void getRivalHPRange(StringBuilder sb) {
+		switch (rivalPokemon.getHp()) {
+		case 5:
+			sb.append("5-4");
+			break;
+		case 4:
+			sb.append("5-4");
+			break;
+		case 3:
+			sb.append("3-2");
+			break;
+		case 2:
+			sb.append("3-2");
+			break;
+		case 1:
+			sb.append("1");
+			break;
+		}
+	}
+
+	private void getBackup2HpRange(StringBuilder sb) {
+		switch (myBackupPokemon2.getHp()) {
+		case 5:
+			sb.append("5-3");
+			break;
+		case 4:
+			sb.append("5-3");
+			break;
+		case 3:
+			sb.append("5-3");
+			break;
+		case 2:
+			sb.append("2-0");
+			break;
+		case 1:
+			sb.append("2-0");
+			break;
+		case 0:
+			sb.append("2-0");
+		}
+	}
+
+	private void getBackup2Effectivity(StringBuilder sb) {
+		switch (rivalPokemon.getTypeAttacks().get(myBackupPokemon2.getType())) {
+		case "effective":
+			sb.append("1");
+			break;
+		case "neutral":
+			sb.append("0");
+			break;
+		case "nonEffective":
+			sb.append("-1");
+			break;
+		}
+	}
+
+	private void getBackup1HPRange(StringBuilder sb) {
+		switch (myBackupPokemon1.getHp()) {
+		case 5:
+			sb.append("5-3");
+			break;
+		case 4:
+			sb.append("5-3");
+			break;
+		case 3:
+			sb.append("5-3");
+			break;
+		case 2:
+			sb.append("2-0");
+			break;
+		case 1:
+			sb.append("2-0");
+			break;
+		case 0:
+			sb.append("2-0");
+		}
+	}
+
+	private void getBackup1Effectivity(StringBuilder sb) {
+		switch (rivalPokemon.getTypeAttacks().get(myBackupPokemon1.getType())) {
+		case "effective":
+			sb.append("1");
+			break;
+		case "neutral":
+			sb.append("0");
+			break;
+		case "nonEffective":
+			sb.append("-1");
+			break;
+		}
+	}
+
+	private void getCurrentPokemonHPRange(StringBuilder sb) {
+		switch (currentPokemon.getHp()) {
+		case 5:
+			sb.append("5-4");
+			break;
+		case 4:
+			sb.append("5-4");
+			break;
+		case 3:
+			sb.append("3-2");
+			break;
+		case 2:
+			sb.append("3-2");
+			break;
+		case 1:
+			sb.append("1");
+			break;
+		}
+	}
+
+	private void getCurrentPokemonEffectivity(StringBuilder sb) {
+		switch (rivalPokemon.getTypeAttacks().get(currentPokemon.getType())) {
+		case "effective":
+			sb.append("1");
+			break;
+		case "neutral":
+			sb.append("0");
+			break;
+		case "nonEffective":
+			sb.append("-1");
+			break;
+		}
 	}
 
 }
