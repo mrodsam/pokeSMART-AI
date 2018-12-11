@@ -1,3 +1,5 @@
+package IA;
+import pokemon.Pokemon;
 
 public class Reward {
 

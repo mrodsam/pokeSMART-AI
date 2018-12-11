@@ -1,3 +1,4 @@
+package pokemon;
 import java.util.Arrays;
 
 public class Team {

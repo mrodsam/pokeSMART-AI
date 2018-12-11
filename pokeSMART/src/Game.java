@@ -2,6 +2,14 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
+import IA.Player;
+import IA.Reward;
+import IA.State;
+import pokemon.AvailablePokemon;
+import pokemon.Movements;
+import pokemon.Pokemon;
+import pokemon.Team;
+
 public class Game {
 
 	/*

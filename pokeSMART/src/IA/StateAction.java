@@ -1,3 +1,4 @@
+package IA;
 import java.io.Serializable;
 
 public class StateAction implements Serializable {

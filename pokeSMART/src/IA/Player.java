@@ -1,9 +1,12 @@
+package IA;
 import java.util.Random;
+
+import pokemon.Team;
 
 public class Player {
 	Team myTeam;
 	Random r = new Random(1000);
-	LearningAutomata la;
+	public LearningAutomata la;
 
 	public Player(Team myTeam, int id) {
 		this.la = new LearningAutomata(id);
