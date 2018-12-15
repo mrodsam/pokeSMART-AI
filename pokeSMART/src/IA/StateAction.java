@@ -1,4 +1,5 @@
 package IA;
+
 import java.io.Serializable;
 
 public class StateAction implements Serializable {
@@ -8,7 +9,7 @@ public class StateAction implements Serializable {
 	private static final long serialVersionUID = 1683670962607404357L;
 	String sState;
 	double[] dValAction;
-	
+
 	public StateAction(String sState, int iNActions, double[] dValAction) {
 		this.sState = sState;
 		this.dValAction = dValAction;
@@ -32,7 +33,7 @@ public class StateAction implements Serializable {
 
 	@Override
 	public String toString() {
-		return sState + "/" + dValAction[0]+","+ dValAction[0]+","+ dValAction[0]+","+ dValAction[0];
+		return sState + "/" + dValAction[0] + "," + dValAction[1] + "," + dValAction[2] + "," + dValAction[3];
 	}
 
 }

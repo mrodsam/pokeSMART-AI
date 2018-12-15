@@ -1,4 +1,5 @@
 package pokemon;
+
 import java.util.Arrays;
 
 public class Team {
@@ -44,12 +45,15 @@ public class Team {
 		case 0:
 			backup1 = 1;
 			backup2 = 2;
+			break;
 		case 1:
-			backup1 = 0;
-			backup2 = 2;
+			backup1 = 2;
+			backup2 = 0;
+			break;
 		case 2:
-			backup1 = 0;
-			backup2 = 1;
+			backup1 = 1;
+			backup2 = 0;
+			break;
 		}
 	}
 

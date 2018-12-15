@@ -88,8 +88,7 @@ public class Pokemon {
 
 		if (this.hp <= 0) {
 			this.hp = 0;
-			fainted = true;
-			System.out.println(this.name.toString() + " fainted");
+			this.fainted = true;
 		}
 	}
 

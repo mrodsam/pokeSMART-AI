@@ -12,12 +12,6 @@ import pokemon.Team;
 
 public class Game {
 
-	/*
-	 * Falta:
-	 * 
-	 * Ahora todos los estados tienen 4 acciones, pero si escojo cambiar a un
-	 * Pokémon desmayado, tengo que bloquear esa acción
-	 */
 	public static void main(String[] args) {
 		int rewardPlayer1 = 0;
 		int rewardPlayer2 = 0;
@@ -28,7 +22,7 @@ public class Game {
 		Team teamPlayer2 = new Team(generateRandomTeam());
 		Player player2 = new Player(teamPlayer2, 2);
 
-		int episodes = 10;
+		int episodes = 100;
 		FileWriter file = null;
 		PrintWriter pw = null;
 		try {
@@ -36,19 +30,22 @@ public class Game {
 			pw = new PrintWriter(file);
 
 			while (episodes > 0) {
-
 				/* Comprobar si hay ganador */
 				restartGame = checkWinner(restartGame, player1.getTeam(), player2.getTeam(), pw);
 
 				/* Reiniciar el juego */
 				if (restartGame) {
 					episodes--;
-
+					if (episodes == 0)
+						break;
 					teamPlayer1 = new Team(generateRandomTeam());
 					player1.setTeam(teamPlayer1);
 
 					teamPlayer2 = new Team(generateRandomTeam());
 					player2.setTeam(teamPlayer2);
+
+					pw.println(player1.getTeam());
+					pw.println(player2.getTeam());
 
 					restartGame = false;
 				}
@@ -93,7 +90,7 @@ public class Game {
 				/***************** Jugador 2 *****************/
 				if (player2.getTeam().getCurrentPokemon().isFainted()) {
 					pw.println("Player 2 " + player2.getTeam().getCurrentPokemon().getName() + " is fainted");
-					player1.getTeam().setCurrentPokemon(player2.choosePokemonRandomly());
+					player2.getTeam().setCurrentPokemon(player2.choosePokemonRandomly());
 					pw.println("Player 2 switch to " + player2.getTeam().getCurrentPokemon().getName());
 				}
 				/* Estado actual del jugador dos */
@@ -153,7 +150,7 @@ public class Game {
 
 			player1.la.writeOutputFile(1);
 			player2.la.writeOutputFile(2);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
@@ -175,7 +172,7 @@ public class Game {
 	}
 
 	private static boolean checkWinner(boolean restartGame, Team teamPlayer1, Team teamPlayer2, PrintWriter pw) {
-		if (teamPlayer1.getFaintedPokemon() == 3 || teamPlayer1.getFaintedPokemon() == 3) {
+		if (teamPlayer1.getFaintedPokemon() == 3 || teamPlayer2.getFaintedPokemon() == 3) {
 			if (teamPlayer1.getFaintedPokemon() == 3) {
 				pw.println("Player 2 won");
 			} else if (teamPlayer2.getFaintedPokemon() == 3) {
@@ -192,7 +189,7 @@ public class Game {
 		int hpBefore = attacked.getHp();
 
 		if (special) {
-			pw.println(attacker + " used special attack");
+			pw.println(attacker + " used type attack");
 			attacked.receiveAttack(attacker.getTypeAttack());
 			pw.println(attacked + " HP = " + attacked.getHp());
 		} else {
@@ -200,6 +197,7 @@ public class Game {
 			attacked.receiveAttack(attacker.getNeutralAttack());
 			pw.println(attacked + " HP = " + attacked.getHp());
 		}
+		
 		int hpAfter = attacked.getHp();
 
 		return hpBefore - hpAfter;

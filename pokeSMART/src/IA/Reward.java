@@ -1,4 +1,5 @@
 package IA;
+
 import pokemon.Pokemon;
 
 public class Reward {
@@ -6,7 +7,6 @@ public class Reward {
 	public static int getReward(Pokemon rivalCurrentPokemon, Pokemon myCurrentPokemon, Pokemon rivalBeforeSwitch,
 			Pokemon myBeforeSwitch, int rivalDamage, int myDamage) {
 		int reward = 0;
-		System.out.println("My damage: " + myDamage + ", rival damage: " + rivalDamage);
 
 		if (myDamage != 0 && rivalDamage != 0) {
 			return rivalDamage - myDamage;

@@ -81,7 +81,10 @@ public class State {
 			sb.append("3-2");
 			break;
 		case 1:
-			sb.append("1");
+			sb.append("1-0");
+			break;
+		case 0:
+			sb.append("1-0");
 			break;
 		}
 	}
@@ -173,7 +176,10 @@ public class State {
 			sb.append("3-2");
 			break;
 		case 1:
-			sb.append("1");
+			sb.append("1-0");
+			break;
+		case 0:
+			sb.append("1-0");
 			break;
 		}
 	}
