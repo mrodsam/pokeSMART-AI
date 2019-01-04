@@ -29,7 +29,7 @@ public class Reward {
 
 		} else if (myDamage == 0 && rivalDamage == 0) {
 			return (getDamage(myCurrentPokemon, rivalCurrentPokemon)
-					- getPastDamage(myBeforeSwitch, rivalBeforeSwitch));
+					- getDamage(myBeforeSwitch, rivalBeforeSwitch));
 		}
 		return reward;
 
@@ -37,13 +37,13 @@ public class Reward {
 
 	public static int getDamage(Pokemon myPokemon, Pokemon rivalPokemon) {
 
-		String myEffective = myPokemon.getTypeAttacks().get(rivalPokemon.getType());
-		String rivalEffective = rivalPokemon.getTypeAttacks().get(myPokemon.getType());
+		String rivalEffectivityAgainstMe = myPokemon.getTypeAttacks().get(rivalPokemon.getType());
+		String myEffectivityAgainstRival = rivalPokemon.getTypeAttacks().get(myPokemon.getType());
 
 		int myDamage = 0;
 		int rivalDamage = 0;
 
-		if (myEffective.equals("effective")) {
+		if (rivalEffectivityAgainstMe.equals("effective")) {
 			if (myPokemon.getHp() <= 4) {
 				myDamage = myPokemon.getHp();
 			} else {
@@ -51,14 +51,14 @@ public class Reward {
 			}
 		}
 
-		if (myEffective.equals("neutral") || myEffective.equals("nonEffective")) {
+		if (rivalEffectivityAgainstMe.equals("neutral") || rivalEffectivityAgainstMe.equals("nonEffective")) {
 			if (myPokemon.getHp() <= 2) {
 				myDamage = myPokemon.getHp();
 			} else {
 				myDamage = 2;
 			}
 		}
-		if (rivalEffective.equals("effective")) {
+		if (myEffectivityAgainstRival.equals("effective")) {
 			if (rivalPokemon.getHp() <= 4) {
 				rivalDamage = rivalPokemon.getHp();
 			} else {
@@ -66,7 +66,7 @@ public class Reward {
 			}
 		}
 
-		if (rivalEffective.equals("neutral") || rivalEffective.equals("nonEffective")) {
+		if (myEffectivityAgainstRival.equals("neutral") || myEffectivityAgainstRival.equals("nonEffective")) {
 			if (rivalPokemon.getHp() <= 2) {
 				rivalDamage = rivalPokemon.getHp();
 			} else {
@@ -74,9 +74,5 @@ public class Reward {
 			}
 		}
 		return rivalDamage - myDamage;
-	}
-
-	public static int getPastDamage(Pokemon myBeforeSwitch, Pokemon rivalBeforeSwitch) {
-		return 0;
 	}
 }
