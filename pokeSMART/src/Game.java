@@ -22,7 +22,7 @@ public class Game {
 		Team teamPlayer2 = new Team(generateRandomTeam());
 		Player player2 = new Player(teamPlayer2, 2);
 
-		int episodes = 100;
+		int episodes = 500;
 		FileWriter file = null;
 		PrintWriter pw = null;
 		try {
@@ -138,14 +138,19 @@ public class Game {
 					break;
 				}
 
+				pw.println("Daño 1: " + damagePlayer1);
+				pw.println("Daño 2: " + damagePlayer2);
+
 				/* Cálculo de las recompensas */
 				rewardPlayer1 = Reward.getReward(player2.getTeam().getCurrentPokemon(),
 						player1.getTeam().getCurrentPokemon(), player2PokemonBeforeSwitch, player1PokemonBeforeSwitch,
 						damagePlayer2, damagePlayer1);
+				pw.println("Reward 1: " + rewardPlayer1);
 
 				rewardPlayer2 = Reward.getReward(player1.getTeam().getCurrentPokemon(),
 						player2.getTeam().getCurrentPokemon(), player1PokemonBeforeSwitch, player2PokemonBeforeSwitch,
 						damagePlayer1, damagePlayer2);
+				pw.println("Reward 2: " + rewardPlayer2);
 			}
 
 			player1.la.writeOutputFile(1);
@@ -197,7 +202,7 @@ public class Game {
 			attacked.receiveAttack(attacker.getNeutralAttack());
 			pw.println(attacked + " HP = " + attacked.getHp());
 		}
-		
+
 		int hpAfter = attacked.getHp();
 
 		return hpBefore - hpAfter;
