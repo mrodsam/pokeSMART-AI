@@ -1,4 +1,5 @@
 package IA;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -25,10 +26,10 @@ public class LearningAutomata {
 		String cadena;
 		FileReader f = null;
 		BufferedReader b = null;
-		File file = new File("learningAutomata"+id+".txt");
+		File file = new File("learningAutomata" + id + ".txt");
 		if (file.exists()) {
 			try {
-				f = new FileReader("learningAutomata"+id+".txt");
+				f = new FileReader("learningAutomata" + id + ".txt");
 				b = new BufferedReader(f);
 				while ((cadena = b.readLine()) != null) {
 					double[] valActions = new double[4];
@@ -50,6 +51,8 @@ public class LearningAutomata {
 	}
 
 	public int vGetNewActionAutomata(String sState, int iNActions, double dFunEval) {
+		System.out.println("Reward actual: " + dFunEval);
+		System.out.println("Reward anterior: " + dLastFunEval);
 		boolean bFound;
 		StateAction oStateProbs;
 
@@ -68,30 +71,47 @@ public class LearningAutomata {
 		}
 
 		if (oLastStateAction != null) {
-			if (dFunEval - dLastFunEval > 0)
+			if (dFunEval > 0)
 				for (int i = 0; i < iNumActions; i++)
 					if (i == iLastAction)
 						oLastStateAction.dValAction[i] += dLearnRate * (1.0 - oLastStateAction.dValAction[i]);
 					else
 						oLastStateAction.dValAction[i] *= (1.0 - dLearnRate);
+			System.out.println("Estado anterior: " + oLastStateAction.toString());
 		}
 
-		double dValAcc = 0;
+		System.out.println("Estado actual: " + oPresentStateAction.toString());
+
+//		double dValAcc = 0;
+//		double dValRandom = Math.random();
+//		for (int i = 0; i < iNActions; i++) {
+//			dValAcc += oPresentStateAction.dValAction[i];
+//			if (dValRandom < dValAcc) {
+//				iNewAction = i;
+//				break;
+//			}
+//		}
+
 		double dValRandom = Math.random();
-		for (int i = 0; i < iNActions; i++) {
-			dValAcc += oPresentStateAction.dValAction[i];
-			if (dValRandom < dValAcc) {
-				iNewAction = i;
-				break;
+		if (dValRandom < dLearnRate) {
+			iNewAction = (int) (Math.random() * 4);
+		} else {
+			iNewAction = (int) (Math.random() * 4);
+			for (int i = 1; i < iNActions; i++) {
+				if (oPresentStateAction.dValAction[i] > oPresentStateAction.dValAction[i - 1]) {
+					iNewAction = i;
+				}
 			}
 		}
 
+		iLastAction = iNewAction;
 		oLastStateAction = oPresentStateAction;
 		dLastFunEval = dFunEval;
 		dLearnRate *= dDecFactorLR;
 		if (dLearnRate < dMINLearnRate)
 			dLearnRate = dMINLearnRate;
 
+		System.out.println("Acción: " + iNewAction);
 		return iNewAction;
 	}
 
