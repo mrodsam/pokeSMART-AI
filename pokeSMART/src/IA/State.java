@@ -1,4 +1,5 @@
 package IA;
+
 import pokemon.Pokemon;
 
 public class State {
@@ -92,22 +93,22 @@ public class State {
 	private void getBackup2HpRange(StringBuilder sb) {
 		switch (myBackupPokemon2.getHp()) {
 		case 5:
-			sb.append("5-3");
+			sb.append("5-1");
 			break;
 		case 4:
-			sb.append("5-3");
+			sb.append("5-1");
 			break;
 		case 3:
-			sb.append("5-3");
+			sb.append("5-1");
 			break;
 		case 2:
-			sb.append("2-0");
+			sb.append("5-1");
 			break;
 		case 1:
-			sb.append("2-0");
+			sb.append("5-1");
 			break;
 		case 0:
-			sb.append("2-0");
+			sb.append("0");
 		}
 	}
 
@@ -128,22 +129,22 @@ public class State {
 	private void getBackup1HPRange(StringBuilder sb) {
 		switch (myBackupPokemon1.getHp()) {
 		case 5:
-			sb.append("5-3");
+			sb.append("5-1");
 			break;
 		case 4:
-			sb.append("5-3");
+			sb.append("5-1");
 			break;
 		case 3:
-			sb.append("5-3");
+			sb.append("5-1");
 			break;
 		case 2:
-			sb.append("2-0");
+			sb.append("5-1");
 			break;
 		case 1:
-			sb.append("2-0");
+			sb.append("5-1");
 			break;
 		case 0:
-			sb.append("2-0");
+			sb.append("0");
 		}
 	}
 
